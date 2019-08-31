@@ -23,13 +23,6 @@ const Home = () => {
   const classes = useStyles();
   return (
     <div>
-      <Head>
-        <title>Home</title>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        />
-      </Head>
       <Container className={classes.container} maxWidth="xs">
         <Typography
           align="center"
