@@ -23,7 +23,8 @@ const useStyles = makeStyles({
 });
 
 const feathersApp = feathers();
-const restClient = feathers.rest("http://localhost:3030");
+// const restClient = feathers.rest("http://localhost:3030");
+const restClient = feathers.rest("https://api.mattmayo.org");
 feathersApp.configure(restClient.axios(axios));
 feathersApp.configure(feathers.authentication());
 
