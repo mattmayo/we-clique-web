@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/styles";
 import feathers from "@feathersjs/client";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles({
   container: {
@@ -26,7 +27,7 @@ const restClient = feathers.rest("http://localhost:3030");
 feathersApp.configure(restClient.axios(axios));
 feathersApp.configure(feathers.authentication());
 
-const postLogin = (email, password, setError) => {
+const postLogin = (email, password, setError, router) => {
   feathersApp
     .authenticate({
       strategy: "local",
@@ -35,6 +36,7 @@ const postLogin = (email, password, setError) => {
     })
     .then(() => {
       console.log("Logged in");
+      router.push("/events");
     })
     .catch(e => {
       setError(e.message);
@@ -54,6 +56,7 @@ const Home = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter();
 
   return (
     <div>
@@ -87,7 +90,7 @@ const Home = () => {
         <Button
           className={classes.containerChild}
           color="primary"
-          onClick={() => postLogin(email, password, setError)}
+          onClick={() => postLogin(email, password, setError, router)}
           variant="outlined"
         >
           Login
