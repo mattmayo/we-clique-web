@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/styles";
 import feathers from "@feathersjs/client";
 import axios from "axios";
 import { useRouter } from "next/router";
+import ErrorIcon from "@material-ui/icons/Error";
 
 const useStyles = makeStyles({
   container: {
@@ -18,6 +19,12 @@ const useStyles = makeStyles({
     transform: "translate(-50%, -50%)"
   },
   containerChild: {
+    margin: "16px"
+  },
+  error: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
     margin: "16px"
   }
 });
@@ -45,10 +52,14 @@ const postLogin = (email, password, setError, router) => {
 };
 
 const Error = props => {
+  const classes = useStyles();
   return (
-    <Typography className={props.className} variant="body1">
-      {props.children}
-    </Typography>
+    <div className={classes.error}>
+      <ErrorIcon color="error" />
+      <Typography className={props.className} color="error" variant="body1">
+        {props.children}
+      </Typography>
+    </div>
   );
 };
 
@@ -96,7 +107,7 @@ const Home = () => {
         >
           Login
         </Button>
-        <Error className={classes.containerChild}>{error}</Error>
+        {error && <Error className={classes.containerChild}>{error}</Error>}
       </Container>
     </div>
   );
