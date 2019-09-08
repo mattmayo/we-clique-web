@@ -4,6 +4,8 @@ import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/styles";
+import feathers from "@feathersjs/client";
+import axios from "axios";
 
 const useStyles = makeStyles({
   container: {
@@ -19,10 +21,39 @@ const useStyles = makeStyles({
   }
 });
 
+const feathersApp = feathers();
+const restClient = feathers.rest("http://localhost:3030");
+feathersApp.configure(restClient.axios(axios));
+feathersApp.configure(feathers.authentication());
+
+const postLogin = (email, password, setError) => {
+  feathersApp
+    .authenticate({
+      strategy: "local",
+      email,
+      password
+    })
+    .then(() => {
+      console.log("Logged in");
+    })
+    .catch(e => {
+      setError(e.message);
+    });
+};
+
+const Error = props => {
+  return (
+    <Typography className={props.className} variant="body1">
+      {props.children}
+    </Typography>
+  );
+};
+
 const Home = () => {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   return (
     <div>
@@ -56,10 +87,12 @@ const Home = () => {
         <Button
           className={classes.containerChild}
           color="primary"
+          onClick={() => postLogin(email, password, setError)}
           variant="outlined"
         >
           Login
         </Button>
+        <Error className={classes.containerChild}>{error}</Error>
       </Container>
     </div>
   );
