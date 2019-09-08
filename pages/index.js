@@ -1,5 +1,5 @@
-import React from "react";
-import Head from "next/head";
+import React, { useState } from "react";
+import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -21,6 +21,9 @@ const useStyles = makeStyles({
 
 const Home = () => {
   const classes = useStyles();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div>
       <Container className={classes.container} maxWidth="xs">
@@ -35,17 +38,28 @@ const Home = () => {
           autoFocus={true}
           className={classes.containerChild}
           label="email"
+          onChange={e => setEmail(e.target.value)}
           required={true}
+          value={email}
           variant="outlined"
         />
         <TextField
           autoFocus={true}
           className={classes.containerChild}
           label="password"
+          onChange={e => setPassword(e.target.value)}
           required={true}
           type="password"
+          value={password}
           variant="outlined"
         />
+        <Button
+          className={classes.containerChild}
+          color="primary"
+          variant="outlined"
+        >
+          Login
+        </Button>
       </Container>
     </div>
   );
